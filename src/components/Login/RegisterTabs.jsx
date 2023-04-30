@@ -24,6 +24,12 @@ const RegisterTabs = () => {
       alert("Kata sandi tidak sesuai!");
       return;
     }
+    // Check if email is valid
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(registerVal.email)) {
+      alert("Email tidak valid! gunakan seperti contoh !!!");
+      return;
+    }
     // Get existing users from local storage or initialize an empty array
     const users = JSON.parse(localStorage.getItem("users")) || [];
     // Check if email already exists
@@ -45,7 +51,7 @@ const RegisterTabs = () => {
       confirm_password: "",
     });
   };
-
+  
   return (
     <>
      <section className="wrapper flex w-full justify-center ">
@@ -94,7 +100,9 @@ const RegisterTabs = () => {
           >
             Daftar
           </button>
-          <a href="login">Login</a>
+          <div className="mt-5">
+          Sudah punya akun? <a className="text-red-600" href="login">Login</a>
+          </div>
         </div>
       </div>
       </section>

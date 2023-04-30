@@ -55,7 +55,7 @@ const LoginTabs = () => {
           </figure>
           <TitleLogin desc={"Masukan email dan password yang sudah dibuat"} />
           <div className="form-content mt-7">
-            <LoginForm label={"Email"} type={"email"} placeholder={"cth: Tommy Kurniawan"} onChange={handleEmailChange} value={email} />
+            <LoginForm label={"Email"} type={"email"} placeholder={"cth: alex123@gmail.com"} onChange={handleEmailChange} value={email} />
             <LoginForm label={"Kata Sandi"} type={"password"} onChange={handlePasswordChange} value={password} />
           </div>
           <div className="button-login mt-4">
@@ -64,10 +64,12 @@ const LoginTabs = () => {
             </button>
             <div className="w-full h-px my-3 bg-gray-300 "></div>
             <p className="my-5">atau login dengan</p>
-            <button onClick={login} type="submit" className="py-2 w-full rounded-full border-2 border-red-600  text-green-900 font-semibold text-base">
+            <button onClick={login} type="submit" className="py-2 w-full rounded-full border-2 border-red-600  text-black-900 font-semibold text-base">
               Google
             </button>
-            <a href="register">DAFTAR</a>
+            <div className="mt-5">
+            Belum punya akun? <a className="text-red-600" href="register">Daftar</a>
+            </div>
           </div>
         </div>
       </section>
