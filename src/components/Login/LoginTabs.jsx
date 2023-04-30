@@ -17,14 +17,17 @@ const LoginTabs = () => {
     }
   });
 
+  // Function to handle email input changes
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
+  // Function to handle password input changes
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
+  // Function to handle user login
   const handleLogin = () => {
     const users = JSON.parse(localStorage.getItem("users"));
     if (users) {
@@ -40,12 +43,14 @@ const LoginTabs = () => {
     }
   };
 
+  // Function to perform Firebase login action
   const login = async () => {
     await loginAction();
     setLogin(true);
     getDataFromApi();
   };
 
+  // Render 
   return (
     <>
       <section className="wrapper flex w-full justify-center ">

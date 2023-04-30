@@ -1,31 +1,54 @@
+// Import useState and useEffect hooks from React
 import { useState,useEffect } from "react";
+
+// Import Countdown component and other hooks from React
 import Countdown from "react-countdown";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Import matchSorter function from match-sorter library
 import { matchSorter } from "match-sorter";
 
+// Define QuestionsComps component
 const QuestionsComps = () => {
+  // Get navigate and id from useNavigate and useParams hooks
   const navigate = useNavigate();
   let id = useParams();
+
+  // Set jumlahjawaban to the length of localStorage "answer" array
   let jumlahjawaban = localStorage.getItem("answer") === null ? 0 : localStorage.getItem("answer").split(",");
+
+  // Set startTime to the time when the component is mounted or to the value saved in localStorage
   const [startTime] = useState(parseInt(localStorage.getItem("startTime")) || Date.now());
+
+  // Set remainingTime to the time left before the timer ends or to the value saved in localStorage
   const [remainingTime] = useState(parseInt(localStorage.getItem("remainingTime")) || 300000);
+
+  // Define handleAnswer function to handle the user's answer
   const handleAnswer = (e) => {
+    // If "answer" is not saved in localStorage, set it to an empty string
     if (localStorage.getItem("answer") === null) {
       localStorage.setItem("answer", "");
     }
+
+    // Split the "answer" string in localStorage into an array and add the user's answer
     let arr = localStorage.getItem("answer").split(",");
     arr.push(e.target.value);
-    console.log(arr);
+
+    // Save the updated "answer" array and the next question ID in localStorage
     localStorage.setItem("answer", arr);
     localStorage.setItem("id", parseInt(id.id) + 1);
+
+    // Get the correct answer(s) from the "soal" array in localStorage and check if the user's answer matches
     const getAnswer = JSON.parse(localStorage.getItem("soal")).map((res) => {
       return res.correct_answer;
     });
     if (matchSorter(getAnswer, e.target.value).length > 0) {
+      // If the user's answer matches the correct answer, add 20 points to the "nilai" in localStorage
       const nilai = parseInt(localStorage.getItem("nilai")) + 20;
       localStorage.setItem("nilai", nilai);
     }
     if (parseInt(localStorage.getItem("id")) > 5) {
+      // If the user has answered all questions, remove all saved data and navigate to the result page
       let removedItems = ["dataSoal", "soal", "timer", "answer"];
       removedItems.forEach((element) => {
         localStorage.removeItem(element);
@@ -34,20 +57,21 @@ const QuestionsComps = () => {
       navigate("/pages");
     }
   };
+
+  // Get the "soal" array from localStorage and save it to the "questions" state
   const [questions] = useState(JSON.parse(localStorage.getItem("soal")));
 
+  // Use useEffect hook to save the remaining time to localStorage every second
   useEffect(() => {
-    // Save the remaining time to localStorage every second
     const timerId = setInterval(() => {
       localStorage.setItem("remainingTime", remainingTime - (Date.now() - startTime));
     }, 1000);
-
-    // Clear the timer when the component is unmounted
     return () => clearInterval(timerId);
   }, [startTime, remainingTime]);
 
+  // Define the renderer function for the Countdown component
   const renderer = ({ minutes, seconds }) => {
-    // Update the start time and remaining time when the timer ends
+    // When the timer ends, reset the startTime and remainingTime in localStorage and navigate to the result page
     if (minutes === 0 && seconds === 0) {
       localStorage.setItem("startTime", Date.now());
       localStorage.setItem("remainingTime", 300000);

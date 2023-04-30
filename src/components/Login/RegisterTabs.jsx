@@ -3,6 +3,8 @@ import TitleLogin from "./TitleLogin";
 import LoginForm from "./LoginForm";
 
 const RegisterTabs = () => {
+
+  // Set initial state for registration form fields
   const [registerVal, setRegisterVal] = useState({
     nama_lengkap: "",
     email: "",
@@ -10,6 +12,7 @@ const RegisterTabs = () => {
     confirm_password: "",
   });
 
+  // Update form field values when input changes
   const handleChange = (e) => {
     setRegisterVal({
       ...registerVal,
@@ -17,33 +20,41 @@ const RegisterTabs = () => {
     });
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+
     // Check if password matches confirm password
     if (registerVal.password !== registerVal.confirm_password) {
       alert("Kata sandi tidak sesuai!");
       return;
     }
+
     // Check if email is valid
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(registerVal.email)) {
       alert("Email tidak valid! gunakan seperti contoh !!!");
       return;
     }
+
     // Get existing users from local storage or initialize an empty array
     const users = JSON.parse(localStorage.getItem("users")) || [];
+
     // Check if email already exists
     const userExists = users.find((user) => user.email === registerVal.email);
     if (userExists) {
       alert("Email sudah terdaftar!");
       return;
     }
+
     // Add new user to users array
     users.push(registerVal);
+
     // Store updated users array in local storage
     localStorage.setItem("users", JSON.stringify(users));
-    alert("Registrasi berhasil!");
-    // Clear form fields
+
+    // Display success message and clear form fields
+    alert("Registrasi berhasil silahkan Login!");
     setRegisterVal({
       nama_lengkap: "",
       email: "",
@@ -51,6 +62,7 @@ const RegisterTabs = () => {
       confirm_password: "",
     });
   };
+
   
   return (
     <>

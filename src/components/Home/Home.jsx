@@ -1,28 +1,39 @@
+// Import necessary dependencies
 import { useEffect } from "react";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const HomeComps = () => {
-  const navigate = useNavigate();
-  const [redirect, setdirect] = useState(false);
-  const directing = localStorage.getItem("id") === null ? "1" : localStorage.getItem("id");
-  useEffect(() => {
-    if (redirect) {
-      navigate("/questions/" + directing);
-    }
-  });
-  const handleCLick = () => {
-    const fixedQuestions = JSON.parse(localStorage.getItem("dataSoal"));
-    if (localStorage.getItem("timer") === null) {
-      localStorage.setItem("soal", JSON.stringify(fixedQuestions));
-      setdirect(true);
-      localStorage.setItem("timer", Date.now());
-      localStorage.setItem("nilai", "0");
-      localStorage.setItem("answer", "0");
-    }
-    setdirect(true);
+// Initialize necessary variables
+const navigate = useNavigate();
+const [redirect, setdirect] = useState(false);
+const directing = localStorage.getItem("id") === null ? "1" : localStorage.getItem("id");
+
+// Redirect user to the first question if redirect is true
+useEffect(() => {
+if (redirect) {
+navigate("/questions/" + directing);
+}
+});
+
+// Handle user's click to start the quiz
+const handleCLick = () => {
+// Get the fixed questions from local storage
+const fixedQuestions = JSON.parse(localStorage.getItem("dataSoal"));
+    // Check if the timer is null
+if (localStorage.getItem("timer") === null) {
+  // Set necessary items to local storage
+  localStorage.setItem("soal", JSON.stringify(fixedQuestions));
+  setdirect(true);
+  localStorage.setItem("timer", Date.now());
+  localStorage.setItem("nilai", "0");
+  localStorage.setItem("answer", "0");
+}
+setdirect(true);
+
   };
+  // Show notification when user has finished the quiz
   const notify = () => {
     toast.success("Anda telah mengerjakan soal ini");
   };
